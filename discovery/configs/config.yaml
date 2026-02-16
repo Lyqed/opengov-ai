@@ -1,0 +1,23 @@
+# OpenGov AI Discovery Scanner Configuration
+scanner:
+  interval_seconds: 60
+  port_ranges:
+    - "3000-3100"  # Common MCP server ports
+    - "8080-8090"  # Common API ports
+  agent_config_paths:
+    - "~/.cursor/mcp.json"
+    - "~/.claude/settings.json"
+    - "~/.config/opencode/mcp.json"
+  
+identity:
+  provider: "oidc"  # oidc, saml
+  issuer_url: ""
+  client_id: ""
+
+nats:
+  url: "nats://localhost:4222"
+  subject_prefix: "opengov.discovery"
+
+logging:
+  level: "info"
+  format: "json"

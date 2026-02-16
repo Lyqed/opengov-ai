@@ -1,0 +1,21 @@
+# OpenGov AI Response Orchestrator Configuration
+playbooks_dir: "./templates"
+integrations:
+  slack:
+    enabled: false
+    webhook_url: ""
+    default_channel: "#security-alerts"
+  jira:
+    enabled: false
+    base_url: ""
+    project: "SEC"
+  pagerduty:
+    enabled: false
+    routing_key: ""
+  splunk:
+    enabled: false
+    hec_url: ""
+    hec_token: ""
+nats:
+  url: "nats://localhost:4222"
+  subject_prefix: "opengov.alerts"

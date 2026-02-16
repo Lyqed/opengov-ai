@@ -1,0 +1,20 @@
+# OpenGov AI Ingestion Service Configuration
+adapters:
+  runlayer:
+    enabled: false
+    webhook_url: ""
+    api_key: ""
+  cloudflare:
+    enabled: false
+    account_id: ""
+    api_token: ""
+  mintmcp:
+    enabled: false
+    api_endpoint: ""
+    api_key: ""
+  generic:
+    enabled: true
+    listen_addr: ":8090"
+nats:
+  url: "nats://localhost:4222"
+  subject_prefix: "opengov.events"

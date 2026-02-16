@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  discovery:
+    name: Discovery (Go)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: "1.22" }
+      - run: cd discovery && go build ./...
+      - run: cd discovery && go test ./...
+
+  risk-engine:
+    name: Risk Engine (Rust)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cd risk-engine && cargo build
+      - run: cd risk-engine && cargo test
+
+  ingestion:
+    name: Ingestion (Go)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: "1.22" }
+      - run: cd ingestion && go build ./...
+      - run: cd ingestion && go test ./...
+
+  response:
+    name: Response (Go)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: "1.22" }
+      - run: cd response && go build ./...
+      - run: cd response && go test ./...
+
+  dashboard:
+    name: Dashboard (React)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: cd dashboard && npm ci && npm run build

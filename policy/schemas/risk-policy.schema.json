@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opengov.ai/schemas/risk-policy/v1",
+  "title": "OpenGov AI Risk Policy",
+  "description": "Defines risk scoring rules and thresholds for AI agent governance",
+  "type": "object",
+  "properties": {
+    "version": { "type": "string", "const": "1.0" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "condition": { "type": "string", "description": "CEL expression" },
+          "risk_adjustment": { "type": "number", "minimum": -100, "maximum": 100 },
+          "action": { "enum": ["alert", "block", "quarantine", "log"] }
+        },
+        "required": ["id", "name", "condition", "action"]
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "properties": {
+        "critical": { "type": "number", "default": 75 },
+        "high": { "type": "number", "default": 50 },
+        "medium": { "type": "number", "default": 25 }
+      }
+    }
+  },
+  "required": ["version", "name", "rules"]
+}

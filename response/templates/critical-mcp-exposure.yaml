@@ -1,0 +1,50 @@
+# Playbook: Critical MCP Server Exposure
+# Trigger: Unauthenticated MCP server discovered on public internet
+id: pb-critical-mcp-exposure
+name: "Critical MCP Exposure Response"
+description: "Auto-response when an unauthenticated MCP server is found publicly accessible"
+trigger:
+  risk_level: critical
+  event_types:
+    - mcp_server_discovered
+  conditions:
+    - "asset.is_public == true"
+    - "asset.has_auth == false"
+steps:
+  - id: step-1
+    action: notify
+    target: slack
+    params:
+      channel: "#security-alerts"
+      message: "CRITICAL: Unauthenticated MCP server {{asset.name}} found on public internet at {{asset.host}}:{{asset.port}}"
+    on_failure: continue
+
+  - id: step-2
+    action: quarantine
+    target: gateway
+    params:
+      asset_id: "{{asset.id}}"
+      reason: "Public unauthenticated MCP server"
+    on_failure: abort
+
+  - id: step-3
+    action: create_ticket
+    target: jira
+    params:
+      project: "SEC"
+      type: "Incident"
+      priority: "Critical"
+      title: "Unauthenticated MCP server: {{asset.name}}"
+      description: "Blast radius: {{blast_radius.estimated_cost_usd}} estimated exposure"
+    on_failure: continue
+
+  - id: step-4
+    action: generate_report
+    target: compliance
+    params:
+      frameworks: "NIST-CSF,SOC2"
+      include_blast_radius: "true"
+    on_failure: continue
+
+timeout: 5m
+enabled: true

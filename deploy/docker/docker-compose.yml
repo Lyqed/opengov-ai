@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  nats:
+    image: nats:2.10-alpine
+    command: ["--jetstream", "--store_dir", "/data"]
+    ports: ["4222:4222", "8222:8222"]
+    volumes: ["nats-data:/data"]
+
+  discovery:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.discovery
+    depends_on: [nats]
+    environment:
+      NATS_URL: nats://nats:4222
+      SCAN_INTERVAL: "60"
+
+  risk-engine:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.risk-engine
+    depends_on: [nats]
+    environment:
+      NATS_URL: nats://nats:4222
+
+  dashboard:
+    build:
+      context: ../../dashboard
+      dockerfile: ../deploy/docker/Dockerfile.dashboard
+    ports: ["3000:80"]
+    depends_on: [risk-engine]
+
+volumes:
+  nats-data:

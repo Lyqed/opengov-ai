@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "name": "Default Risk Policy",
+  "description": "Standard risk policy for AI agent governance",
+  "rules": [
+    {
+      "id": "rule-unauth-mcp",
+      "name": "Unauthenticated MCP Server",
+      "condition": "asset.type == 'mcp-server' && asset.has_auth == false",
+      "risk_adjustment": 40,
+      "action": "alert"
+    },
+    {
+      "id": "rule-public-mcp",
+      "name": "Public MCP Server",
+      "condition": "asset.type == 'mcp-server' && asset.is_public == true",
+      "risk_adjustment": 30,
+      "action": "quarantine"
+    },
+    {
+      "id": "rule-sensitive-tools",
+      "name": "Sensitive Tool Access",
+      "condition": "asset.tools.exists(t, t in ['execute_command', 'database_query', 'deploy'])",
+      "risk_adjustment": 20,
+      "action": "log"
+    },
+    {
+      "id": "rule-secret-detected",
+      "name": "Secret Detected in Agent Traffic",
+      "condition": "event.risk_signals.exists(s, s.type == 'secret_detected')",
+      "risk_adjustment": 50,
+      "action": "block"
+    }
+  ],
+  "thresholds": {
+    "critical": 75,
+    "high": 50,
+    "medium": 25
+  }
+}
