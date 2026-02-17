@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 460">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#080c16"/>
+      <stop offset="100%" style="stop-color:#0d1525"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4aa"/>
+      <stop offset="100%" style="stop-color:#00a3ff"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4aa;stop-opacity:0.45"/>
+      <stop offset="100%" style="stop-color:#00a3ff;stop-opacity:0.02"/>
+    </linearGradient>
+    <linearGradient id="shieldFill" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1525;stop-opacity:0.95"/>
+      <stop offset="100%" style="stop-color:#080c16;stop-opacity:0.98"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="dotglow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="sweepglow">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+    <!-- Subtle outer ring glow -->
+    <filter id="ringglow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle (GitHub crops to circle) -->
+  <circle cx="230" cy="230" r="230" fill="url(#bg)"/>
+
+  <!-- Subtle grid texture -->
+  <g opacity="0.035" stroke="#00d4aa" stroke-width="0.6">
+    <line x1="0" y1="92" x2="460" y2="92"/>
+    <line x1="0" y1="184" x2="460" y2="184"/>
+    <line x1="0" y1="276" x2="460" y2="276"/>
+    <line x1="0" y1="368" x2="460" y2="368"/>
+    <line x1="92" y1="0" x2="92" y2="460"/>
+    <line x1="184" y1="0" x2="184" y2="460"/>
+    <line x1="276" y1="0" x2="276" y2="460"/>
+    <line x1="368" y1="0" x2="368" y2="460"/>
+  </g>
+
+  <!-- Outer accent ring (visible at small sizes) -->
+  <circle cx="230" cy="230" r="218" fill="none" stroke="url(#accent)" stroke-width="2.5" opacity="0.2" filter="url(#ringglow)"/>
+
+  <!-- Shield shape - large and centered -->
+  <g transform="translate(120, 62)">
+    <!-- Shield outer stroke -->
+    <path d="M110 0 L220 44 L220 132 C220 206 170 250 110 272 C50 250 0 206 0 132 L0 44 Z"
+          fill="none" stroke="url(#accent)" stroke-width="4" filter="url(#glow)"/>
+    <!-- Shield inner fill -->
+    <path d="M110 12 L210 52 L210 132 C210 198 164 240 110 260 C56 240 10 198 10 132 L10 52 Z"
+          fill="url(#shieldFill)"/>
+
+    <!-- Radar rings -->
+    <circle cx="110" cy="132" r="68" fill="none" stroke="#00d4aa" stroke-width="1.2" opacity="0.2"/>
+    <circle cx="110" cy="132" r="48" fill="none" stroke="#00d4aa" stroke-width="1.0" opacity="0.16"/>
+    <circle cx="110" cy="132" r="28" fill="none" stroke="#00d4aa" stroke-width="0.8" opacity="0.12"/>
+
+    <!-- Crosshairs -->
+    <line x1="42" y1="132" x2="178" y2="132" stroke="#00d4aa" stroke-width="0.5" opacity="0.15"/>
+    <line x1="110" y1="64" x2="110" y2="200" stroke="#00d4aa" stroke-width="0.5" opacity="0.15"/>
+
+    <!-- Radar sweep arc -->
+    <path d="M110 132 L110 64 A68 68 0 0 1 169 108 Z" fill="url(#sweep)" opacity="0.5"/>
+
+    <!-- Center dot (bright, visible at any size) -->
+    <circle cx="110" cy="132" r="7" fill="#00d4aa" filter="url(#glow)"/>
+    <circle cx="110" cy="132" r="3.5" fill="#ffffff" opacity="0.7"/>
+
+    <!-- Threat indicators (larger for visibility) -->
+    <circle cx="82" cy="102" r="5" fill="#ff4444" opacity="0.9" filter="url(#dotglow)"/>
+    <circle cx="145" cy="145" r="4" fill="#ffcc00" opacity="0.8" filter="url(#dotglow)"/>
+    <circle cx="92" cy="165" r="3.5" fill="#00d4aa" opacity="0.7" filter="url(#dotglow)"/>
+
+    <!-- Scan line (the "active" radar feel) -->
+    <line x1="110" y1="132" x2="169" y2="108" stroke="#00d4aa" stroke-width="1.5" opacity="0.5"/>
+  </g>
+
+  <!-- Bot identifier bar at bottom -->
+  <rect x="130" y="370" width="200" height="32" rx="16" fill="#00d4aa" fill-opacity="0.08" stroke="#00d4aa" stroke-width="1" stroke-opacity="0.25"/>
+  <text x="230" y="391" font-family="'JetBrains Mono','SF Mono','Fira Code','Consolas',monospace" font-size="14" fill="#00d4aa" text-anchor="middle" font-weight="600" letter-spacing="2" opacity="0.8">OPENGOV AI</text>
+</svg>
